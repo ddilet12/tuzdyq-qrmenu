@@ -6,10 +6,19 @@ interface Props {
   onSelect: (cat: string) => void;
 }
 
-const categoryOrder = ['combo', 'kazakh', 'european', 'salads', 'breakfast', 'drinks'];
+const categoryOrder = ['salads', 'bakery', 'rolls', 'bread'];
 
 const CategoryTabs = ({ active, onSelect }: Props) => {
   const { lang } = useLang();
+
+  const handleScroll = (cat: string) => {
+    onSelect(cat);
+    const element = document.getElementById(`category-${cat}`);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -17,7 +26,7 @@ const CategoryTabs = ({ active, onSelect }: Props) => {
         {categoryOrder.map(cat => (
           <button
             key={cat}
-            onClick={() => onSelect(cat)}
+            onClick={() => handleScroll(cat)}
             className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all ${
               active === cat
                 ? 'bg-primary text-primary-foreground shadow-md'

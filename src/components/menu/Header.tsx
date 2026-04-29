@@ -6,8 +6,9 @@ import { MapPin, Clock } from 'lucide-react';
 
 const langs: { key: Lang; label: string }[] = [
   { key: 'ru', label: 'RU' },
-  { key: 'kz', label: 'QZ' },
   { key: 'en', label: 'EN' },
+  { key: 'pl', label: 'PL' },
+  { key: 'ua', label: 'UA' },
 ];
 
 const Header = () => {

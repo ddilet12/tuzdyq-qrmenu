@@ -1,7 +1,7 @@
 import { useCart } from '@/context/CartContext';
 import { useLang } from '@/context/LangContext';
 import { ui } from '@/data/translations';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescription } from '@/components/ui/sheet';
 import { ShoppingCart, Plus, Minus, Trash2, Send, AlertTriangle } from 'lucide-react';
 import {
   AlertDialog,
@@ -45,6 +45,7 @@ const CartDrawer = () => {
       </SheetTrigger>
       <SheetContent side="bottom" className="bg-background border-border rounded-t-2xl max-h-[80vh] flex flex-col">
         <SheetHeader className="pb-3 border-b border-border">
+          <SheetDescription className="sr-only">Your cart details</SheetDescription>
           <div className="flex items-center justify-between">
             <SheetTitle className="text-foreground">{ui.cart[lang]}</SheetTitle>
             <button onClick={clearCart} className="text-xs text-muted-foreground hover:text-destructive transition-colors">
@@ -96,25 +97,27 @@ const CartDrawer = () => {
             <AlertDialogContent className="w-[90vw] max-w-md rounded-2xl">
               <AlertDialogHeader>
                 <AlertDialogTitle>{ui.confirmOrder[lang]}</AlertDialogTitle>
-                <AlertDialogDescription className="space-y-4">
-                  <span className="block">{ui.reviewDetails[lang]}</span>
-                  
-                  <div className="bg-secondary/50 rounded-lg p-3 text-xs space-y-1.5 max-h-[30vh] overflow-y-auto">
-                    {items.map(ci => (
-                      <div key={ci.item.id} className="flex justify-between gap-2">
-                        <span className="text-muted-foreground truncate">{ci.item.name[lang]} × {ci.quantity}</span>
-                        <span className="font-medium whitespace-nowrap">{formatPrice(ci.item.price * ci.quantity)}</span>
+                <AlertDialogDescription asChild>
+                  <div className="space-y-4 text-sm text-muted-foreground">
+                    <span className="block">{ui.reviewDetails[lang]}</span>
+                    
+                    <div className="bg-secondary/50 rounded-lg p-3 text-xs space-y-1.5 max-h-[30vh] overflow-y-auto">
+                      {items.map(ci => (
+                        <div key={ci.item.id} className="flex justify-between gap-2">
+                          <span className="text-muted-foreground truncate">{ci.item.name[lang]} × {ci.quantity}</span>
+                          <span className="font-medium whitespace-nowrap">{formatPrice(ci.item.price * ci.quantity)}</span>
+                        </div>
+                      ))}
+                      <div className="border-t border-border pt-1.5 mt-1.5 flex justify-between font-bold text-foreground overflow-hidden">
+                        <span>{ui.total[lang]}</span>
+                        <span>{formatPrice(totalPrice)}</span>
                       </div>
-                    ))}
-                    <div className="border-t border-border pt-1.5 mt-1.5 flex justify-between font-bold text-foreground overflow-hidden">
-                      <span>{ui.total[lang]}</span>
-                      <span>{formatPrice(totalPrice)}</span>
                     </div>
-                  </div>
 
-                  <div className="flex items-start gap-2 p-3 bg-destructive/10 text-destructive rounded-lg border border-destructive/20 text-xs">
-                    <AlertTriangle className="w-4 h-4 shrink-0" />
-                    <p>{ui.orderImmutableWarning[lang]}</p>
+                    <div className="flex items-start gap-2 p-3 bg-destructive/10 text-destructive rounded-lg border border-destructive/20 text-xs">
+                      <AlertTriangle className="w-4 h-4 shrink-0" />
+                      <p>{ui.orderImmutableWarning[lang]}</p>
+                    </div>
                   </div>
                 </AlertDialogDescription>
               </AlertDialogHeader>
